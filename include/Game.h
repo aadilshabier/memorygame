@@ -1,6 +1,7 @@
 #pragma once
 
 #include <vector>
+#include <cstdint>
 
 #include "SDL.h"
 #include "Renderer.h"
@@ -9,6 +10,10 @@
 namespace MemoryGame
 {
 	using std::vector;
+
+	constexpr uint64_t FPS = 60;
+	//Framerate in milliseconds
+	constexpr uint64_t FRAMERATE_MS = 1000 / FPS;
 
 	class Game
 	{

@@ -11,6 +11,7 @@ namespace MemoryGame
 		/* check if it contains given coordinates coordinates */
 		bool containsCoords(int x, int y);
 
+	public:
 		/* Class members */
 		SDL_Rect rect;
 		int number;

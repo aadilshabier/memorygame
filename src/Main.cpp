@@ -11,4 +11,6 @@ int main()
 {
 	Game game(X, Y);
 	game.run();
+
+	return 0;
 }
