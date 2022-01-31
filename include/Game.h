@@ -30,5 +30,6 @@ namespace MemoryGame
 		int mCols, mRows;
 		Renderer mRenderer;
 		vector<Square> mSquares;
+		int mSelected;
 	};
 }

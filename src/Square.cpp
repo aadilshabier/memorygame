@@ -1,10 +1,15 @@
 #include "Square.h"
+#include "SDL.h"
+
+#include <iostream>
 
 namespace MemoryGame
 {
-	Square::Square(int x_, int y_, int w_, int h_, int number_)
-		: rect{x_, y_, w_, h_}
-		, number(number_)
+	Square::Square(int _x, int _y, int _w, int _h, int _number, SDL_Color _color)
+		: rect{_x, _y, _w, _h}
+		, number(_number)
+		, color(_color)
+		, selected(false)
 	{
 	}
 
