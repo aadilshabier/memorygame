@@ -19,11 +19,17 @@ set(SRC_DIR ${PROJECT_SOURCE_DIR}/src)
 set(INC_DIR ${PROJECT_SOURCE_DIR}/include)
 set(CMAKE_MODULE_PATH ${PROJECT_SOURCE_DIR}/cmake_modules)
 
+include_directories(${INC_DIR})
+
 # recursively find sources
-file(GLOB_RECURSE SOURCES ${SRC_DIR}/*.cpp)
+set(SOURCES
+  ${SRC_DIR}/Game.cpp
+  ${SRC_DIR}/Main.cpp
+  ${SRC_DIR}/Renderer.cpp
+  ${SRC_DIR}/Square.cpp
+)
 add_executable(${CMAKE_PROJECT_NAME} ${SOURCES})
 
-include_directories(${INC_DIR})
 
 # sdl2
 find_package(SDL2 REQUIRED)
