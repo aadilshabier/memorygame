@@ -26,10 +26,9 @@ namespace MemoryGame
 		void handleKeyPress(const SDL_KeyboardEvent& key);
 		void handleMouseButtonPress(const SDL_MouseButtonEvent& button);
 	private:
-		bool mRunning;
+		bool mRunning, mSelected;
 		int mCols, mRows;
 		Renderer mRenderer;
 		vector<Square> mSquares;
-		int mSelected;
 	};
 }

@@ -10,10 +10,11 @@ namespace MemoryGame
 		, number(_number)
 		, color(_color)
 		, selected(false)
+		, solved(false)
 	{
 	}
 
-	bool Square::containsCoords(int x, int y)
+	bool Square::containsCoords(int x, int y) const
 	{
 		const auto& rect = this->rect;
 		return (rect.x <= x && rect.y <= y &&

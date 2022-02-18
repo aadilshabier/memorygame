@@ -21,7 +21,7 @@ namespace MemoryGame
 	/* STATIC FUNCTIONS */
 
 	/* check if number is even */
-	static bool isEven(int x)
+	static inline bool isEven(int x)
 	{
 		return (x & 1) == 0;
 	}
@@ -29,7 +29,7 @@ namespace MemoryGame
 	/* generate random number k between x and y
 	 * x and y inclusive
 	 */
-	static int randBetween(int x, int y)
+	static inline int randBetween(int x, int y)
 	{
 		return x + (rand() % (y - x + 1));
 	}
@@ -83,9 +83,9 @@ namespace MemoryGame
 
 	Game::Game(int nCols, int nRows)
 		: mRunning(true)
+		, mSelected(false)
 		, mCols(nCols)
 		, mRows(nRows)
-		, mSelected(0)
 	{
 		//Either number of rows and columns have to even
 		if(!isEven(nCols) && !isEven(nRows)) {
@@ -138,7 +138,7 @@ namespace MemoryGame
 				}
 			}
 
-			//Render only of necessary()
+			//Render only if necessary
 			uint64_t current_ticks = SDL_GetTicks64();
 			if ((current_ticks - ticks) >= FRAMERATE_MS) {
 				ticks = current_ticks;
@@ -159,29 +159,47 @@ namespace MemoryGame
 
 	void Game::handleMouseButtonPress(const SDL_MouseButtonEvent& button)
 	{
-		auto it = find_if(mSquares.begin(), mSquares.end(), [&](Square x) {
+		// get the select box
+		auto it = find_if(mSquares.begin(), mSquares.end(), [&](const Square& x) {
 			return x.containsCoords(button.x, button.y);
 		});
 
-		if(it != mSquares.end()) {
-			//TODO: game logic
-			int tmp = (it - mSquares.begin());
-			int x = tmp % mCols;
-			int y = tmp / mRows;
-			std::cout << "Clicked on box: (" << x << ", " << y << ") containing number " << it->number << '\n';
-			//if box is already selected
-			if (!it->selected) {
-				//if 2 squares are already selected, hide all the other squares and select only this one
-				if (mSelected == 2) {
-					for(auto& x: mSquares)
-						x.selected = false;
+		// if not found, leave
+		if(it == mSquares.end()) {
+			return;
+		}
+
+		//TODO: game logic
+		int tmp = (it - mSquares.begin());
+		int x = tmp % mCols;
+		int y = tmp / mRows;
+		std::cout << "Box: (" << x << ", " << y << ") containing number " << it->number << '\n';
+		//if box is already selected unselect it
+		if (it->selected) {
+			mSelected = false;
+			it->selected = false;
+		} else {
+			// check if no other square was selected first
+			if (!mSelected) {
+				mSelected = true;
+				it->selected = true;
+			} else  {
+				// get the other selected box
+				auto selectedBox = find_if(mSquares.begin(), mSquares.end(), [&](const Square& x) {
+					return x.selected;
+				});
+				// if the colors of the boxes match, mark it solved
+				if(it->number == selectedBox->number) {
+					it->solved = true;
+					selectedBox->solved = true;
+					it->selected = false;
+					selectedBox->selected = false;
 					mSelected = 0;
+				} else {
+					selectedBox->selected = false;
+					it->selected = true;
 				}
-				mSelected++;
-			} else {
-				mSelected--;
 			}
-			it->selected = !it->selected;
 		}
 	}
 }

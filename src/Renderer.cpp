@@ -38,7 +38,7 @@ namespace MemoryGame
 	void Renderer::drawSquares(const vector<Square>& squares)
 	{
 		for(const auto& x: squares) {
-			if (x.selected) {
+			if (x.solved || x.selected) {
 				SDL_SetRenderDrawColor(mRenderer, x.color.r, x.color.g, x.color.b, x.color.a);
 			} else {
 				SDL_SetRenderDrawColor(mRenderer, BOX_COLOR.r, BOX_COLOR.g, BOX_COLOR.b, BOX_COLOR.a);
