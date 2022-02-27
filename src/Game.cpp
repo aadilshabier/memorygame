@@ -144,16 +144,17 @@ namespace MemoryGame
 				mRunning = false;
 			}
 
-			//Render only if necessary
-			uint64_t current_ticks = SDL_GetTicks64();
-			if ((current_ticks - ticks) >= FRAMERATE_MS) {
-				ticks = current_ticks;
+			mRenderer.clear();
+			mRenderer.drawSquares(mSquares);
+			mRenderer.present();
 
-				mRenderer.clear();
-				mRenderer.drawSquares(mSquares);
-				mRenderer.present();
+			//sleep off the remaining time
+			int64_t diff = FRAMERATE_MS - (SDL_GetTicks64() - ticks);
+			if (diff > 0) {
+				ticks = SDL_GetTicks64();
+				SDL_Delay(diff);
 			}
-		}
+		}		
 	}
 
 	void Game::handleKeyPress(const SDL_KeyboardEvent& key)

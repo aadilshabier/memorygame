@@ -30,7 +30,7 @@ $ make -C build
 
 ### Roadmap
 - [x] Check if the game has been won
-- [ ] Fix maxxed out CPU usage
+- [x] Fix maxxed out CPU usage
 - [ ] Make a starting and ending screen
 - [ ] Better game screen (counter, timer, etc)
 - [ ] Make blocks display textures instead of a solid colour
