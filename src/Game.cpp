@@ -81,6 +81,21 @@ namespace MemoryGame
 
 	/* CLASS METHODS */
 
+	//static instance
+	static Game* sGame = nullptr;
+
+	//TODO: should be controlled by PlayState instead
+	constexpr int X = 6;
+	constexpr int Y = 6;
+
+	Game* Game::Instance()
+	{
+		if(sGame == nullptr)
+			sGame = new Game(X, Y);
+		return sGame;
+	}
+
+
 	Game::Game(int nCols, int nRows)
 		: mRunning(true)
 		, mSelected(false)

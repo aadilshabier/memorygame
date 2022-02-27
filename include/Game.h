@@ -18,11 +18,13 @@ namespace MemoryGame
 	class Game
 	{
 	public:
-		/* Create game grid with given number of squares */
-		Game(int nRols, int nRows);
+		/* Public instance function */
+		static Game* Instance();
 		/* Run the game */
 		void run();
 	private:
+		/* Create game grid with given number of squares */
+		Game(int nRols, int nRows);
 		void handleKeyPress(const SDL_KeyboardEvent& key);
 		void handleMouseButtonPress(const SDL_MouseButtonEvent& button);
 		// check if the game is won
