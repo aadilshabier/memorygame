@@ -25,7 +25,7 @@ $ ./build/memorygame
 ```
 
 ### Roadmap
-- [ ] Check if the game has been won
+- [x] Check if the game has been won
 - [ ] Fix maxxed out CPU usage
 - [ ] Make a starting and ending screen
 - [ ] Better game screen (counter, timer, etc)
