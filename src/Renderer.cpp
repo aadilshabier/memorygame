@@ -1,5 +1,4 @@
 #include <iostream>
-#include <vector>
 
 #include "Renderer.h"
 #include "SDL.h"
@@ -7,7 +6,6 @@
 namespace MemoryGame
 {
 	using std::cerr;
-	using std::vector;
 
 	void Renderer::init(const char* title, int w, int h)
 	{
@@ -16,7 +14,7 @@ namespace MemoryGame
 								   w, h,
 								   SDL_WINDOW_SHOWN);
 		if (mWindow == NULL) {
-			cerr << "ERROR: COuld not initialize window: " << SDL_GetError() << '\n';
+			cerr << "ERROR: Could not initialize window: " << SDL_GetError() << '\n';
 			exit(1);
 		}
 
@@ -33,18 +31,6 @@ namespace MemoryGame
 	{
 		SDL_SetRenderDrawColor(mRenderer, BG_COLOR.r, BG_COLOR.g, BG_COLOR.b, BG_COLOR.a);
 		SDL_RenderClear(mRenderer);
-	}
-
-	void Renderer::drawSquares(const vector<Square>& squares)
-	{
-		for(const auto& x: squares) {
-			if (x.solved || x.selected) {
-				SDL_SetRenderDrawColor(mRenderer, x.color.r, x.color.g, x.color.b, x.color.a);
-			} else {
-				SDL_SetRenderDrawColor(mRenderer, BOX_COLOR.r, BOX_COLOR.g, BOX_COLOR.b, BOX_COLOR.a);
-			}
-			SDL_RenderFillRect(mRenderer, &x.rect);
-		}
 	}
 
 	void Renderer::present()

@@ -1,16 +1,12 @@
 #pragma once
 
-#include <vector>
 #include <cstdint>
 
-#include "SDL.h"
 #include "Renderer.h"
-#include "Square.h"
+#include "GameStateMachine.h"
 
 namespace MemoryGame
 {
-	using std::vector;
-
 	constexpr uint64_t FPS = 30;
 	//Framerate in milliseconds
 	constexpr uint64_t FRAMERATE_MS = 1000 / FPS;
@@ -22,18 +18,16 @@ namespace MemoryGame
 		static Game* Instance();
 		/* Run the game */
 		void run();
+		/* Get the state machine */
+		GameStateMachine* getStateMachine() { return &mGameStateMachine; }
+		/* Getter and Setter for mRunning */
+		bool isRunning() const { return mRunning; }
+		void setRunning(bool r) { mRunning = r; }
 	private:
-		/* Create game grid with given number of squares */
-		Game(int nRols, int nRows);
-		void handleKeyPress(const SDL_KeyboardEvent& key);
-		void handleMouseButtonPress(const SDL_MouseButtonEvent& button);
-		// check if the game is won
-		bool isWon() const;
+		Game();
 	private:
-		bool mRunning, mSelected;
-		int mCols, mRows;
-		int mSolved; // number of solved boxes
+		bool mRunning;
 		Renderer mRenderer;
-		vector<Square> mSquares;
+		GameStateMachine mGameStateMachine;
 	};
 }

@@ -26,11 +26,10 @@ namespace MemoryGame
 		/* Clear the screen */
 		void clear();
 
-		/* Draw the given squares from the vector */
-		void drawSquares(const vector<Square>& squares);
-
 		/* Update screen to reflect changes */
 		void present();
+
+		SDL_Renderer* getRenderer() { return mRenderer; }
 	private:
 		SDL_Window *mWindow;
 		SDL_Renderer *mRenderer;
