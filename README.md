@@ -18,10 +18,14 @@ $ mkdir build
 $ cmake -B build
 $ make -C build
 ```
+3. Run the project  
 An executable `memorygame` is made inside the `build` directory
-3. Run the project
 ```shell
 $ ./build/memorygame
+```
+4. For future builds, just do:
+```sh
+$ make -C build
 ```
 
 ### Roadmap
