@@ -114,7 +114,7 @@ namespace MemoryGame
 
 		if (isWon()) {
 			std::cout << "You have won the game!\n";
-			//TODO: Go to gameover screen
+			//TODO: Make a Game Over screen
 			Game::Instance()->getStateMachine()->changeState(new GameOverState());
 		}
 	}
@@ -206,16 +206,11 @@ namespace MemoryGame
 		return(mSolved == mRows * mCols);
 	}
 
-	//TODO: Find a better solution
 	void PlayState::drawSquares(Renderer& renderer)
 	{
 		for(const auto& x: mSquares) {
-			if (x.solved || x.selected) {
-				SDL_SetRenderDrawColor(renderer.getRenderer(), x.color.r, x.color.g, x.color.b, x.color.a);
-			} else {
-				SDL_SetRenderDrawColor(renderer.getRenderer(), BOX_COLOR.r, BOX_COLOR.g, BOX_COLOR.b, BOX_COLOR.a);
-			}
-			SDL_RenderFillRect(renderer.getRenderer(), &x.rect);
+			SDL_Color color = (x.solved || x.selected) ? x.color : DEFAULT_BOX_COLOR;
+			renderer.drawRect(&x.rect, color);
 		}
 	}
 }

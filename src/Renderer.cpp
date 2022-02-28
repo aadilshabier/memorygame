@@ -37,4 +37,10 @@ namespace MemoryGame
 	{
 		SDL_RenderPresent(mRenderer);
 	}
+
+	void Renderer::drawRect(const SDL_Rect* rect, SDL_Color color)
+	{
+		SDL_SetRenderDrawColor(mRenderer, color.r, color.g, color.b, color.a);
+		SDL_RenderFillRect(mRenderer, rect);
+	}
 }
