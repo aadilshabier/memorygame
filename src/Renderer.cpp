@@ -9,6 +9,11 @@ namespace MemoryGame
 
 	void Renderer::init(const char* title, int w, int h)
 	{
+		if (SDL_Init(SDL_INIT_VIDEO) != 0) {
+			cerr << "ERROR: Could not initialize SDL: " << SDL_GetError() << '\n';
+			exit(1);
+		}
+
 		mWindow = SDL_CreateWindow(title,
 								   SDL_WINDOWPOS_CENTERED, SDL_WINDOWPOS_CENTERED,
 								   w, h,
@@ -19,12 +24,22 @@ namespace MemoryGame
 		}
 
 		mRenderer = SDL_CreateRenderer(mWindow, -1, SDL_RENDERER_ACCELERATED);
+		if (mRenderer == NULL) {
+			cerr << "ERROR: Could not initialize hardware renderer: " << SDL_GetError() << '\n';
+			cerr << "Trying to switch to fallback software renderer\n";
+			mRenderer = SDL_CreateRenderer(mWindow, -1, SDL_RENDERER_SOFTWARE);
+			if (mRenderer == NULL) {
+				cerr << "ERROR: Could not initialize software renderer: " << SDL_GetError() << '\n';
+				exit(1);
+			}
+		}
 	}
 
 	Renderer::~Renderer()
 	{
 		SDL_DestroyWindow(mWindow);
 		SDL_DestroyRenderer(mRenderer);
+		SDL_Quit();
 	}
 
 	void Renderer::clear()
