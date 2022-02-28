@@ -26,7 +26,7 @@ set(SOURCES
   ${SRC_DIR}/Game.cpp
   ${SRC_DIR}/Main.cpp
   ${SRC_DIR}/Renderer.cpp
-  ${SRC_DIR}/Square.cpp
+  ${SRC_DIR}/Box.cpp
   ${SRC_DIR}/GameOverState.cpp
   ${SRC_DIR}/GameState.cpp
   ${SRC_DIR}/GameStateMachine.cpp
@@ -40,8 +40,15 @@ find_package(SDL2 REQUIRED)
 include_directories(${SDL2_INCLUDE_DIRS})
 target_link_libraries(${CMAKE_PROJECT_NAME} ${SDL2_LIBRARIES})
 
+# module directory
+set(CMAKE_MODULE_PATH ${CMAKE_MODULE_PATH} "${CMAKE_SOURCE_DIR}/cmake_modules/")
+
+# sdl2_image
+find_package(SDL2_image REQUIRED)
+include_directories(${SDL2_IMAGE_INCLUDE_DIRS})
+target_link_libraries(${CMAKE_PROJECT_NAME} ${SDL2_IMAGE_LIBRARIES})
+
 # sdl2_ttf
 # find_package(SDL2_ttf REQUIRED)
 # include_directories(${SDL2_TTF_INCLUDE_DIRS})
 # target_link_libraries(${CMAKE_PROJECT_NAME} ${SDL2_TTF_LIBRARIES})
-

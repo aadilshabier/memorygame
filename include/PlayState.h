@@ -2,7 +2,7 @@
 
 #include "GameState.h"
 #include "Renderer.h"
-#include "Square.h"
+#include "Box.h"
 
 namespace MemoryGame
 {
@@ -30,7 +30,7 @@ namespace MemoryGame
 		bool mSelected; // if a box was previously selected
 		int mCols, mRows;
 		int mSolved; // number of solved boxes
-		vector<Square> mSquares;
+		vector<Box> mSquares;
 	};
 	
 }

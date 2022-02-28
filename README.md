@@ -4,7 +4,8 @@ A simple game written in SDL2 Using C++
 ### Prerequsites
 * GCC
 * CMake
-* SDL2.0
+* SDL2
+* SDL2_image
 
 ### Instructions
 1. Clone the repoistory to your local machine

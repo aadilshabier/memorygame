@@ -160,7 +160,7 @@ namespace MemoryGame
 	void PlayState::handleMouseButtonPress(const SDL_MouseButtonEvent& button)
 	{
 		// get the select box
-		auto it = find_if(mSquares.begin(), mSquares.end(), [&button](const Square& x) {
+		auto it = find_if(mSquares.begin(), mSquares.end(), [&button](const Box& x) {
 			return x.containsCoords(button.x, button.y);
 		});
 
@@ -181,7 +181,7 @@ namespace MemoryGame
 				it->selected = true;
 			} else  {
 				// get the other selected box
-				auto selectedBox = find_if(mSquares.begin(), mSquares.end(), [&](const Square& x) {
+				auto selectedBox = find_if(mSquares.begin(), mSquares.end(), [&](const Box& x) {
 					return x.selected;
 				});
 				// if the colors of the boxes match, mark it solved

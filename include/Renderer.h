@@ -3,7 +3,7 @@
 #include <vector>
 
 #include "SDL.h"
-#include "Square.h"
+#include "Box.h"
 
 namespace MemoryGame
 {
