@@ -6,7 +6,7 @@ project(memorygame)
 set(CMAKE_COLOR_MAKEFILE OFF)
  
 # compiler settings
-set(CMAKE_CXX_STANDARD 11)
+set(CMAKE_CXX_STANDARD 17)
 set(CMAKE_CXX_STANDARD_REQUIRED True)
 if (MSVC)
   add_compile_options(/W4)
@@ -29,17 +29,18 @@ set(SOURCES
   ${SRC_DIR}/MenuState.h
   ${SRC_DIR}/PlayState.h
   ${SRC_DIR}/Renderer.h
+  ${SRC_DIR}/TextureManager.h
 
   # object files
-  ${SRC_DIR}/Game.cpp
-  ${SRC_DIR}/Main.cpp
-  ${SRC_DIR}/Renderer.cpp
   ${SRC_DIR}/Box.cpp
+  ${SRC_DIR}/Game.cpp
   ${SRC_DIR}/GameOverState.cpp
   ${SRC_DIR}/GameState.cpp
   ${SRC_DIR}/GameStateMachine.cpp
+  ${SRC_DIR}/Main.cpp
   ${SRC_DIR}/MenuState.cpp
   ${SRC_DIR}/PlayState.cpp
+  ${SRC_DIR}/Renderer.cpp
   ${SRC_DIR}/TextureManager.cpp
 )
 add_executable(${CMAKE_PROJECT_NAME} ${SOURCES})
