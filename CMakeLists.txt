@@ -16,13 +16,21 @@ endif()
 
 # set directory variables
 set(SRC_DIR ${PROJECT_SOURCE_DIR}/src)
-set(INC_DIR ${PROJECT_SOURCE_DIR}/include)
 set(CMAKE_MODULE_PATH ${PROJECT_SOURCE_DIR}/cmake_modules)
-
-include_directories(${INC_DIR})
 
 # add sources
 set(SOURCES
+  # header files
+  ${SRC_DIR}/Box.h
+  ${SRC_DIR}/Game.h
+  ${SRC_DIR}/GameOverState.h
+  ${SRC_DIR}/GameState.h
+  ${SRC_DIR}/GameStateMachine.h
+  ${SRC_DIR}/MenuState.h
+  ${SRC_DIR}/PlayState.h
+  ${SRC_DIR}/Renderer.h
+
+  # object files
   ${SRC_DIR}/Game.cpp
   ${SRC_DIR}/Main.cpp
   ${SRC_DIR}/Renderer.cpp
@@ -32,6 +40,7 @@ set(SOURCES
   ${SRC_DIR}/GameStateMachine.cpp
   ${SRC_DIR}/MenuState.cpp
   ${SRC_DIR}/PlayState.cpp
+  ${SRC_DIR}/TextureManager.cpp
 )
 add_executable(${CMAKE_PROJECT_NAME} ${SOURCES})
 
