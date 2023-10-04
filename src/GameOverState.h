@@ -19,5 +19,7 @@ namespace MemoryGame
 	private:
 		void handleKeyPress(const SDL_KeyboardEvent& key);
 		void handleMouseButtonPress(const SDL_MouseButtonEvent& button);
+	private:
+		int mGameOverImg = -1;
 	};
 }

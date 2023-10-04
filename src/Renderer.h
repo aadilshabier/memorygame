@@ -31,8 +31,13 @@ namespace MemoryGame
 
 		/* Draw an SDL_Rect with the given color */
 		void drawRect(const SDL_Rect* rect, SDL_Color color);
+
+		/* Draw an SDL_Texture with the given src and dest SDL_Rect's */
+		void drawTexture(SDL_Texture* texture,
+						 const SDL_Rect* srcrect, const SDL_Rect* dstrect);
+	public:
+		SDL_Renderer *mRenderer;
 	private:
 		SDL_Window *mWindow;
-		SDL_Renderer *mRenderer;
 	};
 }

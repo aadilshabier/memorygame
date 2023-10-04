@@ -1,5 +1,6 @@
 #include "Game.h"
 #include "GameOverState.h"
+#include "TextureManager.h"
 
 namespace MemoryGame
 {
@@ -20,14 +21,25 @@ namespace MemoryGame
 		}
 	}
 
-	void GameOverState::render(Renderer& /*renderer*/)
-	{}
+	void GameOverState::render(Renderer& renderer)
+	{
+		auto* texture = TextureManager::Instance()->get(mGameOverImg);
+		renderer.drawTexture(texture, nullptr, nullptr);
+	}
 
 	void GameOverState::onEnter()
-	{}
+	{
+		auto* renderer = Game::Instance()->mRenderer.mRenderer;
+		mGameOverImg = TextureManager::Instance()->load("assets/game_over3.png", renderer);
+		if (mGameOverImg == -1) {
+			exit(1);
+		}
+	}
 
 	void GameOverState::onExit()
-	{}
+	{
+		TextureManager::Instance()->unload(mGameOverImg);
+	}
 
 	void GameOverState::handleKeyPress(const SDL_KeyboardEvent& key)
 	{

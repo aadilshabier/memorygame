@@ -21,9 +21,10 @@ namespace MemoryGame
 		void setRunning(bool r) { mRunning = r; }
 	private:
 		Game();
+	public:
+		Renderer mRenderer;
 	private:
 		bool mRunning;
-		Renderer mRenderer;
 		GameStateMachine mGameStateMachine;
 	};
 }

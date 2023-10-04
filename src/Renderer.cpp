@@ -58,4 +58,10 @@ namespace MemoryGame
 		SDL_SetRenderDrawColor(mRenderer, color.r, color.g, color.b, color.a);
 		SDL_RenderFillRect(mRenderer, rect);
 	}
+
+	void Renderer::drawTexture(SDL_Texture* texture,
+							   const SDL_Rect* srcrect, const SDL_Rect* dstrect)
+	{
+		SDL_RenderCopy(mRenderer, texture, srcrect, dstrect);
+	}
 }
