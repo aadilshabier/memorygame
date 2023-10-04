@@ -12,10 +12,7 @@ namespace MemoryGame
 	class GameState
 	{
 	public:
-		/* Default update() which checks if window was closed
-		* TODO: Remove later
-		*/
-		virtual void update();
+		virtual void update() = 0;
 		virtual void render(Renderer& renderer) = 0;
 
 		/* method to run when entering a state */

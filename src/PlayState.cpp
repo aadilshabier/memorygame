@@ -113,8 +113,6 @@ namespace MemoryGame
 		}
 
 		if (isWon()) {
-			std::cout << "You have won the game!\n";
-			//TODO: Make a Game Over screen
 			Game::Instance()->getStateMachine()->changeState(new GameOverState());
 		}
 	}
