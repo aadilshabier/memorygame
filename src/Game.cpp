@@ -1,5 +1,6 @@
 #include <cstdint>
 
+#include "Config.h"
 #include "Game.h"
 #include "Renderer.h"
 #include "SDL.h"
@@ -19,18 +20,11 @@ namespace MemoryGame
 		return sGame;
 	}
 
-	//TODO: Move these elsewhere
-	static constexpr int W = 800;
-	static constexpr int H = 700;
 	Game::Game()
 		: mRunning(true)
 	{
 		mRenderer.init("Memory Game", W, H);
 	}
-
-	//TODO: Move these to the main menu
-	static constexpr int X = 6;
-	static constexpr int Y = 5;
 
 	void Game::run()
 	{

@@ -7,10 +7,6 @@
 
 namespace MemoryGame
 {
-	constexpr uint64_t FPS = 30;
-	//Framerate in milliseconds
-	constexpr uint64_t FRAMERATE_MS = 1000 / FPS;
-
 	class Game
 	{
 	public:

@@ -22,6 +22,7 @@ set(CMAKE_MODULE_PATH ${PROJECT_SOURCE_DIR}/cmake_modules)
 set(SOURCES
   # header files
   ${SRC_DIR}/Box.h
+  ${SRC_DIR}/Config.h
   ${SRC_DIR}/Game.h
   ${SRC_DIR}/GameOverState.h
   ${SRC_DIR}/GameState.h
