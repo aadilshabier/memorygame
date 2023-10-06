@@ -9,12 +9,6 @@ namespace MemoryGame
 {
 	using std::vector;
 
-	constexpr int BOX_SIZE = 100;
-	constexpr int BORDER_SIZE = 20;
-
-	constexpr SDL_Color BG_COLOR = {0, 0, 0, 255}; // black
-	constexpr SDL_Color DEFAULT_BOX_COLOR = {255, 255, 255, 255}; // white
-
 	class Renderer
 	{
 	public:

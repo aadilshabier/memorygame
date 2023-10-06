@@ -10,6 +10,6 @@ namespace MemoryGame {
 	constexpr uint64_t FRAMERATE_MS = 1000 / FPS;
 
 	// Number of boxes in X and Y dims
-	static constexpr int X = 6;
-	static constexpr int Y = 5;
+	constexpr int X = 6;
+	constexpr int Y = 5;
 }

@@ -17,6 +17,12 @@ namespace MemoryGame
 	using std::find_if;
 	using std::unordered_map;
 
+	constexpr int BOX_SIZE = 100;
+	constexpr int BORDER_SIZE = 20;
+
+	constexpr SDL_Color DEFAULT_BOX_COLOR = {255, 255, 255, 255}; // white
+
+
 	/* STATIC FUNCTIONS */
 
 	/* check if number is even */
@@ -208,7 +214,7 @@ namespace MemoryGame
 	{
 		for(const auto& x: mSquares) {
 			SDL_Color color = (x.solved || x.selected) ? x.color : DEFAULT_BOX_COLOR;
-			renderer.drawRect(&x.rect, color);
+			renderer.drawRect(color, &x.rect);
 		}
 	}
 }

@@ -20,6 +20,6 @@ namespace MemoryGame
 		void handleKeyPress(const SDL_KeyboardEvent& key);
 		void handleMouseButtonPress(const SDL_MouseButtonEvent& button);
 	private:
-		int mGameOverImg = -1;
+		int mGameOverImg = -1; // texture ID of "Game Over" Image
 	};
 }

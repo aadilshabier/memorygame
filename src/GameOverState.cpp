@@ -4,6 +4,8 @@
 
 namespace MemoryGame
 {
+	const char* GAME_OVER_FILE = "assets/game_over3.png";
+
 	GameOverState::GameOverState()
 	{}
 
@@ -30,7 +32,7 @@ namespace MemoryGame
 	void GameOverState::onEnter()
 	{
 		auto* renderer = Game::Instance()->mRenderer.mRenderer;
-		mGameOverImg = TextureManager::Instance()->load("assets/game_over3.png", renderer);
+		mGameOverImg = TextureManager::Instance()->load(GAME_OVER_FILE, renderer);
 		if (mGameOverImg == -1) {
 			exit(1);
 		}
@@ -39,6 +41,7 @@ namespace MemoryGame
 	void GameOverState::onExit()
 	{
 		TextureManager::Instance()->unload(mGameOverImg);
+		mGameOverImg = -1;
 	}
 
 	void GameOverState::handleKeyPress(const SDL_KeyboardEvent& key)

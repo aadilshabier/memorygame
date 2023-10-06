@@ -7,6 +7,8 @@ namespace MemoryGame
 {
 	using std::cerr;
 
+	constexpr SDL_Color BG_COLOR = {0, 0, 0, 255}; // black
+
 	void Renderer::init(const char* title, int w, int h)
 	{
 		if (SDL_Init(SDL_INIT_VIDEO) != 0) {
