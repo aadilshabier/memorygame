@@ -9,7 +9,7 @@ namespace MemoryGame
 	class PlayState final : public GameState
 	{
 	public:
-		/* Create game grid with given number of squares */
+		/* Create game grid with given number of boxes */
 		PlayState(int nRows, int nCols);
 
 		virtual void update() override;
@@ -24,13 +24,14 @@ namespace MemoryGame
 		void handleMouseButtonPress(const SDL_MouseButtonEvent& button);
 		/* check if the game is won */
 		bool isWon() const;
-		/* Draw the given squares from the vector */
-		void drawSquares(Renderer& renderer);
+		/* Draw the given boxes from the vector */
+		void drawBoxes(Renderer& renderer);
 	private:
 		bool mSelected; // if a box was previously selected
 		int mCols, mRows;
 		int mSolved; // number of solved boxes
-		vector<Box> mSquares;
+		vector<Box> mBoxes;
+		int mTilesImg = -1;
 	};
 	
 }

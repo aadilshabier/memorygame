@@ -4,11 +4,13 @@
 #include <iostream>
 #include <algorithm>
 #include <cassert>
+#include <random>
 
 #include "SDL.h"
 #include "Game.h"
-#include "PlayState.h"
 #include "GameOverState.h"
+#include "PlayState.h"
+#include "TextureManager.h"
 
 namespace MemoryGame
 {
@@ -16,6 +18,15 @@ namespace MemoryGame
 	using std::cerr;
 	using std::find_if;
 	using std::unordered_map;
+
+	const char* TILES_FILE = "assets/tiles1.jpg";
+
+	constexpr int TILES_M = 10;
+	constexpr int TILES_N = 8;
+
+	constexpr int TILES_START = 19;
+	constexpr int TILES_SIZE = 89;
+	constexpr int TILES_OFFSET = 8;
 
 	constexpr int BOX_SIZE = 100;
 	constexpr int BORDER_SIZE = 20;
@@ -39,51 +50,39 @@ namespace MemoryGame
 		return x + (rand() % (y - x + 1));
 	}
 
-	/* generate a vector of x random numbers,
-	 * it should contain numbers from 1 to x/2, where each number is present 2 times
+	/* generate a vector of x random numbers in the range [0, max)
 	 */
-	static vector<int> generateNumbers(int x)
+	static vector<int> generateNumbers(int x, int max)
 	{
-		assert(isEven(x));
+		assert(max >= x);
 
-		//use an unordered map to keep track of numbers already inserted
-		unordered_map<int, int> counts(x/2);
-		for(int i=1; i<=x/2; i++) {
-			counts[i] = 2;
+		vector<int> result(max);
+		for (int i=0; i<max; i++) {
+			result[i] = i;
 		}
 
-		//fill the vector
-		vector<int> result(x);
-		for(int i=0; i<x; i++) {
-			//get random element from counts
-			auto it = std::next(std::begin(counts), randBetween(0, counts.size()-1));
-			int num = it->first;
-			int& count = it->second;
-			result[i] = num;
-			if(--count == 0)
-				counts.erase(it);
-		}
+		std::random_device rd;
+		std::mt19937 g(rd());
+		std::shuffle(result.begin(), result.end(), g);
+		result.resize(x);
 
 		return result;
 	}
 
-	/* generate a vector containing x random solid colors (alpha = 255)
+	/* Return a vector<int> which contains every element of nums twice
+	 * and shuffled
 	 */
-	static vector<SDL_Color> generateColors(int x)
-	{
-		vector<SDL_Color> result(x);
-		for(int i=0; i<x; i++) {
-			Uint8 r, g, b, a=255;
-			r = randBetween(0, 255);
-			g = randBetween(0, 255);
-			b = randBetween(0, 255);
-			SDL_Color color = {r, g, b, a};
-			result[i] = color;
+	static vector<int> generatePositions(const vector<int>& nums) {
+		vector<int> result(nums);
+		auto size = result.size();
+		for (size_t i=0; i<size; i++) {
+		    result.push_back(result[i]);
 		}
-
+		std::random_device rd;
+		std::mt19937 g(rd());
+		std::shuffle(result.begin(), result.end(), g);
 		return result;
 	}
-
 
 	/* CLASS METHODS */
 
@@ -125,34 +124,55 @@ namespace MemoryGame
 
 	void PlayState::render(Renderer& renderer)
 	{
-		drawSquares(renderer);
+		drawBoxes(renderer);
 	}
 
 	void PlayState::onEnter()
 	{	
-		//seed rng
+		// seed rng
 		srand((unsigned)time(NULL));
 
-		//Generate random numbers
-		auto nums = generateNumbers(mCols*mRows);
+		// Generate x unique numbers within the range [0, max)
+		auto nums = generateNumbers(mCols*mRows/2, TILES_M*TILES_N);
 
-		//Generate random colors
-		auto colors = generateColors((mCols*mRows)/2);
+		// Generate positions of the textures on the boards
+		auto positions = generatePositions(nums);
 
-		mSquares.reserve(mCols*mRows);
+		auto* renderer = Game::Instance()->mRenderer.mRenderer;
+	    mTilesImg = TextureManager::Instance()->load(TILES_FILE, renderer);
+		if (mTilesImg == -1) {
+			exit(1);
+		}
+
+		mBoxes.reserve(mCols*mRows);
 		for (int i=0; i<mRows; i++) {
 			for (int j=0; j<mCols; j++) {
-				int x = BORDER_SIZE + (BORDER_SIZE + BOX_SIZE) * j;
-				int y = BORDER_SIZE + (BORDER_SIZE + BOX_SIZE) * i;
-				int num = nums[i*mCols+j];
-				SDL_Color color = colors[num-1];
-				mSquares.emplace_back(x, y, BOX_SIZE, BOX_SIZE, num, color);
+				SDL_Rect windowRect, textureRect;
+
+				windowRect.x = BORDER_SIZE + (BORDER_SIZE + BOX_SIZE) * j;
+				windowRect.y = BORDER_SIZE + (BORDER_SIZE + BOX_SIZE) * i;
+				windowRect.w = BOX_SIZE;
+				windowRect.h = BOX_SIZE;
+
+				int boxIdx = i*mCols+j;
+				int number = positions[boxIdx];
+				int pos_i = number % TILES_M;
+				int pos_j = number / TILES_M;
+				textureRect.x = TILES_START + (TILES_SIZE + TILES_OFFSET) * pos_i;
+				textureRect.y = TILES_START + (TILES_SIZE + TILES_OFFSET) * pos_j;
+				textureRect.w = TILES_SIZE;
+				textureRect.h = TILES_SIZE;
+
+				mBoxes.emplace_back(windowRect, textureRect, number);
 			}
 		}
 	}
 
 	void PlayState::onExit()
-	{}
+	{
+		TextureManager::Instance()->unload(mTilesImg);
+		mTilesImg = -1;
+	}
 
 	void PlayState::handleKeyPress(const SDL_KeyboardEvent& key)
 	{
@@ -164,12 +184,12 @@ namespace MemoryGame
 	void PlayState::handleMouseButtonPress(const SDL_MouseButtonEvent& button)
 	{
 		// get the select box
-		auto it = find_if(mSquares.begin(), mSquares.end(), [&button](const Box& x) {
+		auto it = find_if(mBoxes.begin(), mBoxes.end(), [&button](const Box& x) {
 			return x.containsCoords(button.x, button.y);
 		});
 
 		// if not found, leave
-		if(it == mSquares.end()) {
+		if(it == mBoxes.end()) {
 			return;
 		}
 
@@ -185,7 +205,7 @@ namespace MemoryGame
 				it->selected = true;
 			} else  {
 				// get the other selected box
-				auto selectedBox = find_if(mSquares.begin(), mSquares.end(), [&](const Box& x) {
+				auto selectedBox = find_if(mBoxes.begin(), mBoxes.end(), [&](const Box& x) {
 					return x.selected;
 				});
 				// if the colors of the boxes match, mark it solved
@@ -210,11 +230,17 @@ namespace MemoryGame
 		return(mSolved == mRows * mCols);
 	}
 
-	void PlayState::drawSquares(Renderer& renderer)
+	void PlayState::drawBoxes(Renderer& renderer)
 	{
-		for(const auto& x: mSquares) {
-			SDL_Color color = (x.solved || x.selected) ? x.color : DEFAULT_BOX_COLOR;
-			renderer.drawRect(color, &x.rect);
+		auto* texture = TextureManager::Instance()->get(mTilesImg);
+		for(const auto& x: mBoxes) {
+			// only render texture if its solved or selected
+			if (x.solved || x.selected) {
+				renderer.drawTexture(texture,
+									 &x.textureRect, &x.windowRect);
+			} else {
+				renderer.drawRect(DEFAULT_BOX_COLOR, &x.windowRect);
+			}
 		}
 	}
 }
