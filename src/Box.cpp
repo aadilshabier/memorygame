@@ -5,18 +5,16 @@
 
 namespace MemoryGame
 {
-	Box::Box(int _x, int _y, int _w, int _h, int _number, SDL_Color _color)
-		: rect{_x, _y, _w, _h}
-		, number(_number)
-		, color(_color)
-		, selected(false)
-		, solved(false)
+	Box::Box(SDL_Rect _windowRect, SDL_Rect _textureRect, int _number)
+		: windowRect{_windowRect}
+		, textureRect{_textureRect}
+		, number{_number}
 	{
 	}
 
 	bool Box::containsCoords(int x, int y) const
 	{
-		const auto& rect = this->rect;
+		const auto& rect = this->windowRect;
 		return (rect.x <= x && rect.y <= y &&
 				x < (rect.x+rect.w) && y < (rect.y+rect.h));
 	}
