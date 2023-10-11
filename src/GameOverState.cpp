@@ -1,6 +1,8 @@
+#include "Config.h"
 #include "Game.h"
 #include "GameOverState.h"
 #include "TextureManager.h"
+#include "PlayState.h"
 
 namespace MemoryGame
 {
@@ -48,6 +50,8 @@ namespace MemoryGame
 	{
 		if (key.keysym.sym == SDLK_ESCAPE) {
 			Game::Instance()->setRunning(false);
+		} else if (key.keysym.sym == SDLK_r) {
+			Game::Instance()->getStateMachine()->changeState(new PlayState(Y, X));
 		}
 	}
 

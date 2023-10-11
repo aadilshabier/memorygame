@@ -1,5 +1,7 @@
 #pragma once
 
+#include <cstdint>
+
 namespace MemoryGame {
 	// dimensions of window
 	static constexpr int W = 740;
